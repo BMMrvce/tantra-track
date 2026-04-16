@@ -1,0 +1,18 @@
+{
+  "name": "tantratrack",
+  "version": "1.0.0",
+  "description": "Budget Tracker - Track income, expenses, and generate reports",
+  "type": "module",
+  "main": "server/index.js",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd client && npm run build",
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
