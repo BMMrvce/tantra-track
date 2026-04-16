@@ -29,7 +29,6 @@ A powerful, modern budget tracking application built with React and Node.js. Tra
 2. **Install all dependencies**
    ```bash
    npm install
-   cd client && npm install && cd ../server && npm install && cd ..
    ```
 
 3. **Start the application**
@@ -170,16 +169,17 @@ tantratrack/
 
 ## 📝 Database
 
-The application uses SQLite3 with the following tables:
+The application uses Supabase PostgreSQL with the following tables:
 
 ### Transactions Table
 - id (Primary Key)
+- user_id
 - type (income/expense)
 - category
 - amount
 - description
 - date
-- createdAt
+- created_at
 
 ### Categories Table
 - id
@@ -188,6 +188,23 @@ The application uses SQLite3 with the following tables:
 - color
 
 ## 🚀 Deployment
+
+### Vercel Deployment
+
+Tantratrack is configured for Vercel with a static React frontend and a Node.js API function for `/api/*` routes.
+
+1. Import the repository into Vercel.
+2. Set the project root to the repository root.
+3. Use the default build command `npm run build`.
+4. Set the output directory to `client/build`.
+5. Add these environment variables in Vercel:
+   - `REACT_APP_SUPABASE_URL`
+   - `REACT_APP_SUPABASE_ANON_KEY`
+   - `SUPABASE_URL`
+   - `SUPABASE_KEY`
+   - `SUPABASE_SERVICE_KEY`
+
+The frontend reads the `REACT_APP_*` values, and the serverless API reads the non-prefixed Supabase values.
 
 ### Build Frontend
 ```bash
