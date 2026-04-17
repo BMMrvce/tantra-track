@@ -121,41 +121,6 @@ function App() {
     }
   };
 
-  const handleDeleteTransaction = async (id) => {
-    try {
-      const response = await fetch(`/api/transactions/${id}`, {
-        method: 'DELETE',
-        headers: getAuthHeaders()
-      });
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Failed to delete transaction');
-      }
-
-      fetchTransactions();
-    } catch (error) {
-      console.error('Error deleting transaction:', error);
-      window.alert(error.message || 'Delete failed. Please try again.');
-    }
-  };
-
-  const handleEditTransaction = async (id, transaction) => {
-    try {
-      const response = await fetch(`/api/transactions/${id}`, {
-        method: 'PUT',
-        headers: getAuthHeaders(),
-        body: JSON.stringify(transaction)
-      });
-      const data = await response.json();
-      if (data.success) {
-        fetchTransactions();
-      }
-    } catch (error) {
-      console.error('Error editing transaction:', error);
-    }
-  };
-
   const handleAuth = async ({ fullName, email, password }) => {
     if (!hasSupabaseConfig || !supabase) {
       setAuthError(missingSupabaseConfigMessage);
@@ -276,10 +241,7 @@ function App() {
         {activeTab === 'dashboard' && (
           <Dashboard 
             transactions={transactions} 
-            categories={categories}
             loading={loading}
-            onDeleteTransaction={handleDeleteTransaction}
-            onEditTransaction={handleEditTransaction}
           />
         )}
         
