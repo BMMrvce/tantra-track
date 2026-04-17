@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
-import supabase from './supabaseClient';
+import supabase, { hasSupabaseConfig, missingSupabaseConfigMessage } from './supabaseClient';
 import AuthScreen from './components/AuthScreen';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
@@ -28,6 +28,12 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
+    if (!hasSupabaseConfig || !supabase) {
+      setAuthLoading(false);
+      setAuthError(missingSupabaseConfigMessage);
+      return;
+    }
+
     const initializeSession = async () => {
       const { data } = await supabase.auth.getSession();
       setSession(data.session ?? null);
@@ -147,6 +153,11 @@ function App() {
   };
 
   const handleAuth = async ({ fullName, email, password }) => {
+    if (!hasSupabaseConfig || !supabase) {
+      setAuthError(missingSupabaseConfigMessage);
+      return;
+    }
+
     try {
       setAuthSubmitting(true);
       setAuthError('');
@@ -187,6 +198,10 @@ function App() {
   };
 
   const handleLogout = async () => {
+    if (!supabase) {
+      return;
+    }
+
     await supabase.auth.signOut();
     setTransactions([]);
     setCategories([]);
@@ -202,6 +217,29 @@ function App() {
       <div className="app auth-loading-screen">
         <div className="loading">
           <div className="spinner"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!hasSupabaseConfig) {
+    return (
+      <div className="auth-shell">
+        <div className="auth-backdrop auth-backdrop-left" />
+        <div className="auth-backdrop auth-backdrop-right" />
+        <div className="auth-card card">
+          <div className="auth-branding">
+            <div className="auth-logo">Tantra<span>track</span></div>
+            <p className="auth-tagline">Setup required before sign in</p>
+          </div>
+          <div className="auth-error">
+            {missingSupabaseConfigMessage}
+          </div>
+          <div className="auth-footer-note">
+            Add these variables in <strong>client/.env</strong> and restart the client:
+            <br />REACT_APP_SUPABASE_URL
+            <br />REACT_APP_SUPABASE_ANON_KEY
+          </div>
         </div>
       </div>
     );
