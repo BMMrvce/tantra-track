@@ -95,7 +95,6 @@ function Dashboard({ transactions, loading }) {
                   <th>Description</th>
                   <th>Type</th>
                   <th>Amount</th>
-                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -111,9 +110,6 @@ function Dashboard({ transactions, loading }) {
                     </td>
                     <td className={txn.type === 'income' ? 'text-success' : 'text-danger'}>
                       {txn.type === 'income' ? '+' : '-'} ₹ {txn.amount.toFixed(2)}
-                    </td>
-                    <td>
-                      <span className="text-muted">No actions</span>
                     </td>
                   </tr>
                 ))}
