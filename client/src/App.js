@@ -128,11 +128,15 @@ function App() {
         headers: getAuthHeaders()
       });
       const data = await response.json();
-      if (data.success) {
-        fetchTransactions();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to delete transaction');
       }
+
+      fetchTransactions();
     } catch (error) {
       console.error('Error deleting transaction:', error);
+      window.alert(error.message || 'Delete failed. Please try again.');
     }
   };
 

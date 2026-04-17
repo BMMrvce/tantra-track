@@ -55,6 +55,9 @@ router.delete('/transactions/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await deleteTransaction(id, req.user.id);
+    if (!result.success) {
+      return res.status(404).json({ success: false, error: 'Transaction not found or not owned by current user' });
+    }
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });

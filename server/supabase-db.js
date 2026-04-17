@@ -133,14 +133,17 @@ export const updateTransaction = async (id, type, category, amount, description,
 // Delete transaction
 export const deleteTransaction = async (id, userId) => {
   try {
-    const { error } = await serviceSupabase
+    const { data, error } = await serviceSupabase
       .from('transactions')
       .delete()
       .eq('id', id)
-      .eq('user_id', userId);
+      .eq('user_id', userId)
+      .select('id');
 
     if (error) throw error;
-    return { success: true };
+
+    const deletedCount = data?.length || 0;
+    return { success: deletedCount > 0, deletedCount };
   } catch (error) {
     throw new Error(`Failed to delete transaction: ${error.message}`);
   }
