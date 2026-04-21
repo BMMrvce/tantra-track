@@ -1,0 +1,18 @@
+{
+  "short_name": "TantraTrack",
+  "name": "Tantratrack Smart Budget Tracker",
+  "description": "Track income, expenses, and visual reports with an installable mobile app.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

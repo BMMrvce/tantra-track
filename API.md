@@ -207,6 +207,30 @@ Content-Type: application/json
 2. **Transactions** - All transactions with date, type, category, description, amount
 3. **By Category** - Income and expenses breakdown by category
 
+#### Export to PDF
+```
+POST /export/pdf
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "startDate": "2024-01-01",
+  "endDate": "2024-01-31"
+}
+```
+
+**Response:**
+- PDF file download (.pdf)
+- Filename: `TantraTrack_Report_2024-01-01_to_2024-01-31.pdf`
+
+**Report includes:**
+1. Summary cards for income, expenses, balance, and transaction count
+2. Expense-by-category visual bars
+3. Daily expense trend visualization
+4. Transaction table for the selected date range
+
 ---
 
 ## Error Responses

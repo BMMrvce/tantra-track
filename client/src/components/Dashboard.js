@@ -25,7 +25,9 @@ function Dashboard({ transactions, loading }) {
     return transactions.filter((transaction) => transaction.type === typeFilter);
   }, [transactions, typeFilter]);
 
-  const recentTransactions = filteredTransactions.slice(0, 10);
+  const orderedTransactions = useMemo(() => {
+    return [...filteredTransactions].sort((left, right) => new Date(right.date) - new Date(left.date));
+  }, [filteredTransactions]);
 
   return (
     <div className="dashboard">
@@ -54,9 +56,10 @@ function Dashboard({ transactions, loading }) {
         </div>
       </div>
 
-      {/* Recent Transactions */}
+      {/* Transaction History */}
       <div className="card">
-        <h2 className="card-title">Recent Transactions</h2>
+        <h2 className="card-title">Transaction History</h2>
+        <p className="page-subtitle">Newest transactions appear first. Use the filters to narrow the list.</p>
         <div className="command-filter-row">
           <button
             className={`command-filter-btn ${typeFilter === 'all' ? 'active' : ''}`}
@@ -85,7 +88,7 @@ function Dashboard({ transactions, loading }) {
           <div className="loading">
             <div className="spinner"></div>
           </div>
-        ) : recentTransactions.length > 0 ? (
+        ) : orderedTransactions.length > 0 ? (
           <div className="table-container">
             <table className="table">
               <thead>
@@ -98,7 +101,7 @@ function Dashboard({ transactions, loading }) {
                 </tr>
               </thead>
               <tbody>
-                {recentTransactions.map(txn => (
+                {orderedTransactions.map(txn => (
                   <tr key={txn.id}>
                     <td>{new Date(txn.date).toLocaleDateString('en-IN')}</td>
                     <td>{txn.category}</td>

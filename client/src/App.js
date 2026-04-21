@@ -80,11 +80,7 @@ function App() {
   const fetchTransactions = useCallback(async () => {
     try {
       setLoading(true);
-      const today = new Date().toISOString().split('T')[0];
-      const firstDay = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-        .toISOString().split('T')[0];
-
-      const response = await fetch(`/api/transactions?startDate=${firstDay}&endDate=${today}`, {
+      const response = await fetch('/api/transactions', {
         headers: getAuthHeaders()
       });
       const data = await response.json();

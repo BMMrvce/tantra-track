@@ -86,6 +86,9 @@ function ExportButton({ authToken }) {
         <div className="modal-overlay" onClick={() => !loading && setShowModal(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">📊 Export Report</div>
+            <p className="page-subtitle" style={{ marginTop: '-0.25rem' }}>
+              PDF exports include expense visual summaries, category bars, and a daily trend view.
+            </p>
             
             <div className="form-group">
               <label htmlFor="start-date">Start Date</label>
@@ -111,7 +114,7 @@ function ExportButton({ authToken }) {
               <label htmlFor="format">Export Format</label>
               <select id="format" value={format} onChange={(event) => setFormat(event.target.value)}>
                 <option value="excel">Excel (.xlsx)</option>
-                <option value="pdf">PDF (.pdf)</option>
+                <option value="pdf">PDF Visual Report (.pdf)</option>
               </select>
             </div>
 
@@ -128,7 +131,7 @@ function ExportButton({ authToken }) {
                 onClick={handleExport}
                 disabled={loading}
               >
-                {loading ? '⏳ Exporting...' : `📥 Export ${format === 'pdf' ? 'PDF' : 'Excel'}`}
+                {loading ? '⏳ Exporting...' : `📥 Export ${format === 'pdf' ? 'PDF Report' : 'Excel'}`}
               </button>
             </div>
           </div>

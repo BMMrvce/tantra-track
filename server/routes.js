@@ -16,11 +16,14 @@ const router = express.Router();
 
 router.use(requireAuth);
 
-// Get all transactions for a date range
+// Get transactions for an optional date range. When no range is provided,
+// return the full transaction history for the current user.
 router.get('/transactions', async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    const transactions = await getTransactions(startDate, endDate, req.user.id);
+    const transactions = startDate && endDate
+      ? await getTransactions(startDate, endDate, req.user.id)
+      : await getAllTransactions(req.user.id);
     res.json(transactions);
   } catch (error) {
     res.status(500).json({ error: error.message });
